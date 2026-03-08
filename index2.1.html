@@ -1,59 +1,384 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WTF Esports | Born To Dominate</title>
-    <link rel="stylesheet" href="style.css">
+
+<title>WTF ESPORTS</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+/* LOGO GLOW */
+
+.logo{
+font-size:26px;
+font-weight:bold;
+color:#00f7ff;
+animation:logoGlow 2s infinite alternate;
+}
+
+@keyframes logoGlow{
+0%{text-shadow:0 0 5px #00f7ff;}
+100%{text-shadow:0 0 20px #00f7ff,0 0 40px #00f7ff;}
+}
+
+/* MENU */
+
+.menu a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+position:relative;
+transition:0.3s;
+}
+
+.menu a::after{
+content:'';
+position:absolute;
+left:0;
+bottom:-5px;
+width:0%;
+height:2px;
+background:#00f7ff;
+transition:0.3s;
+}
+
+.menu a:hover::after{width:100%;}
+.menu a:hover{color:#00f7ff;transform:scale(1.1);}
+
+/* HERO */
+
+.hero h1{
+font-size:60px;
+color:#00f7ff;
+animation:heroGlow 3s infinite alternate;
+}
+
+@keyframes heroGlow{
+0%{text-shadow:0 0 10px #00f7ff;}
+100%{text-shadow:0 0 30px #00f7ff,0 0 60px #00f7ff;}
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#000;
+color:white;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:#111;
+}
+
+/* HERO */
+
+.hero{
+height:60vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background-image:url("https://images.unsplash.com/photo-1542751371-adc38448a05e");
+background-size:cover;
+background-position:center;
+}
+
+/* SLOT SECTION */
+
+.slots{
+padding:60px;
+text-align:center;
+background:#0f2027;
+}
+
+.slot-grid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:15px;
+max-width:900px;
+margin:auto;
+}
+
+.slot{
+padding:20px;
+background:#111;
+border:1px solid #00f7ff;
+border-radius:8px;
+cursor:pointer;
+}
+
+.slot:hover{
+background:#00f7ff;
+color:black;
+}
+
+.booked{
+background:red;
+cursor:not-allowed;
+}
+
+.players{
+padding:60px;
+background:#000;
+text-align:center;
+}
+
+.playerItem{
+background:#111;
+padding:10px;
+margin:10px auto;
+max-width:400px;
+border-radius:6px;
+border:1px solid #00f7ff;
+}
+
+footer{
+background:#000;
+text-align:center;
+padding:20px;
+}
+
+button{
+padding:10px 20px;
+background:#00f7ff;
+border:none;
+border-radius:5px;
+cursor:pointer;
+margin:10px;
+}
+
+</style>
+
 </head>
+
 <body>
 
-<header>
-    <img src="logo.png" class="logo">
-    <h1>WTF ESPORTS</h1>
-    <p class="tagline">BORN TO DOMINATE</p>
-</header>
+<header class="main-header">
 
-<nav>
-    <a href="index.html">Home</a>
-    <a href="#games">Games</a>
-    <a href="booking.html">Book Slot</a>
-    <a href="#rules">Rules</a>
-    <a href="#contact">Contact</a>
+<div class="logo">🎮 WTF ESPORTS</div>
+
+<nav class="menu">
+
+<a href="index2.1.html">Home</a>
+<a href="booking2.1.html">Tournament</a>
+<a href="leaderboard.html">Leaderboard</a>
+<a href="bracket.html">Bracket</a>
+<a href="rules.html">Rules</a>
+<a href="about.html">About Us</a>
+<a href="contact.html">Contact</a>
+<a href="player-login2.1.html">Player Login</a>
+<a href="admin2.1.html">Admin</a>
+
 </nav>
 
-<section id="games">
-    <h2>Available Games</h2>
-    <div class="card">
-        <h3>BGMI</h3>
-        <p>Squad / Duo / Solo</p>
-        <p>Entry Fee: ₹100</p>
-    </div>
-    <div class="card">
-        <h3>Free Fire</h3>
-        <p>Clash Squad & Battle Royale</p>
-        <p>Entry Fee: ₹50</p>
-    </div>
+</header>
+
+<section class="hero">
+
+<h3>Players Online</h3>
+<div id="onlinePlayers"></div>
+
+<h1>🔥 FREE FIRE CHAMPIONSHIP</h1>
+
+<p>Hosted by WTF ESPORTS</p>
+
 </section>
 
-<section id="rules">
-    <h2>Tournament Rules</h2>
-    <ul>
-        <li>No hackers allowed</li>
-        <li>No emulators</li>
-        <li>Only mobile devices</li>
-        <li>ID & Password shared 30 mins before match</li>
-        <li>Breaking rules = Disqualification</li>
-    </ul>
+<section class="slots">
+
+<h2>🔥 Tournament Slots (10)</h2>
+
+<h3 id="playerCounter" style="color:#00f7ff;margin-top:10px;">
+Players Joined: 0 / 10
+</h3>
+
+<h3 id="registrationStatus" style="color:red;"></h3>
+
+<div class="counter">
+Slots Left: <span id="slotsLeft"></span>
+</div>
+
+<div class="slot-grid" id="slots"></div>
+
+<button id="adminResetBtn" onclick="resetSlots()" style="display:none;">
+Admin Reset Slots
+</button>
+
 </section>
 
-<section id="contact">
-    <h2>Contact Admin</h2>
-    <p>📞 7816075094</p>
-    <p>📧 nareshjilla33@gmail.com</p>
+<section class="players">
+
+<h2>🏆 Joined Players</h2>
+
+<div id="joinedPlayers"></div>
+
 </section>
 
 <footer>
-    <p>© 2026 WTF Esports | All Rights Reserved</p>
+WTF ESPORTS © 2026
 </footer>
+
+<script>
+
+/* ONLINE PLAYERS */
+
+let count = localStorage.getItem("onlinePlayers") || 0;
+count++;
+localStorage.setItem("onlinePlayers",count);
+document.getElementById("onlinePlayers").innerText = count;
+
+/* SLOT SYSTEM */
+
+let slots = JSON.parse(localStorage.getItem("slots")) || Array(10).fill(null);
+
+let slotContainer = document.getElementById("slots");
+
+function renderSlots(){
+
+slotContainer.innerHTML="";
+
+let left=0;
+
+slots.forEach((player,index)=>{
+
+let div=document.createElement("div");
+
+div.className="slot";
+
+if(player){
+
+div.classList.add("booked");
+
+div.innerText="Slot "+(index+1)+"\n"+player.name+"\nUID:"+player.uid;
+
+}else{
+
+left++;
+
+div.innerText="Slot "+(index+1);
+
+div.onclick=function(){
+
+let regStatus = localStorage.getItem("registrationStatus");
+
+if(regStatus === "closed"){
+alert("Registration Closed by Admin");
+return;
+}
+
+let count = slots.filter(s => s !== null).length;
+
+if(count === 10){
+alert("Tournament Full ❌");
+return;
+}
+
+let name = prompt("Enter Player Name");
+let uid = prompt("Enter Player UID");
+
+if(name && uid){
+
+slots[index]={name:name,uid:uid};
+
+localStorage.setItem("slots",JSON.stringify(slots));
+
+renderSlots();
+
+window.location.href="booking2.1.html";
+
+}
+
+};
+
+}
+
+slotContainer.appendChild(div);
+
+});
+
+document.getElementById("slotsLeft").innerText=left;
+
+updatePlayerCounter();
+
+}
+
+function updatePlayerCounter(){
+
+let count = slots.filter(s => s !== null).length;
+
+document.getElementById("playerCounter").innerText =
+"Players Joined: " + count + " / 10";
+
+if(count === 10){
+
+document.getElementById("registrationStatus").innerText =
+"Registration Closed ❌ Tournament Full";
+
+}
+
+}
+
+renderSlots();
+
+/* ADMIN RESET */
+
+function resetSlots(){
+
+let pass = prompt("Admin Password");
+
+let adminPass = localStorage.getItem("adminPass");
+
+if(pass === adminPass){
+
+localStorage.removeItem("slots");
+
+location.reload();
+
+}else{
+
+alert("Access Denied");
+
+}
+
+}
+
+if(localStorage.getItem("adminLoggedIn") === "true"){
+document.getElementById("adminResetBtn").style.display="block";
+}
+
+</script>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBQWMagDvKjFSYaX-0ex2gGYT2AaucSIV8",
+authDomain: "wtf-esports-victory-start-here.firebaseapp.com",
+projectId: "wtf-esports-victory-start-here",
+storageBucket: "wtf-esports-victory-start-here.firebasestorage.app",
+messagingSenderId: "987957320998",
+appId: "1:987957320998:web:5db14abdf48b2c8b60f5e7",
+measurementId: "G-SWPH8DWJSK"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+</script>
 
 </body>
 </html>

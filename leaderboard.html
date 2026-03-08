@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+<style>
+   
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#000;
+color:white;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:#111;
+}
+
+.logo{
+font-size:24px;
+color:#00f7ff;
+font-weight:bold;
+}
+
+nav a{
+color:white;
+margin-left:30px;
+text-decoration:none;
+}
+
+nav a:hover{
+color:#00f7ff;
+}
+
+/* HERO */
+
+.hero{
+height:60vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background-image:url("https://images.unsplash.com/photo-1542751371-adc38448a05e");
+background-size:cover;
+background-position:center;
+}
+
+.hero h1{
+font-size:60px;
+color:#00f7ff;
+}
+
+.hero p{
+font-size:20px;
+margin-top:10px;
+}
+
+/* COUNTDOWN */
+
+.timer{
+text-align:center;
+padding:20px;
+font-size:22px;
+background:#111;
+}
+
+/* MATCH STATUS */
+
+.status{
+text-align:center;
+padding:20px;
+background:#000;
+}
+
+.status h2{
+color:#00f7ff;
+margin-bottom:10px;
+}
+
+/* SLOT SECTION */
+
+.slots{
+padding:60px;
+text-align:center;
+background:#0f2027;
+}
+
+.counter{
+margin-bottom:20px;
+font-size:18px;
+}
+
+.slot-grid{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:15px;
+max-width:900px;
+margin:auto;
+}
+
+.slot{
+padding:20px;
+background:#111;
+border:1px solid #00f7ff;
+border-radius:8px;
+cursor:pointer;
+}
+
+.slot:hover{
+background:#00f7ff;
+color:black;
+}
+
+.booked{
+background:red;
+cursor:not-allowed;
+}
+
+/* ROOM SECTION */
+
+.room-box{
+margin-top:30px;
+padding:20px;
+background:#111;
+border-radius:10px;
+display:none;
+}
+
+/* JOINED PLAYERS */
+
+.players{
+padding:60px;
+background:#000;
+text-align:center;
+}
+
+.playerItem{
+background:#111;
+padding:10px;
+margin:10px auto;
+max-width:400px;
+border-radius:6px;
+border:1px solid #00f7ff;
+}
+
+/* CONTACT */
+
+.contact{
+padding:60px;
+text-align:center;
+background:#111;
+}
+
+footer{
+background:#000;
+text-align:center;
+padding:20px;
+}
+
+button{
+padding:10px 20px;
+background:#00f7ff;
+border:none;
+border-radius:5px;
+cursor:pointer;
+margin:10px;
+}
+
+</style>
+
+<style>
+
+body{
+font-family:Arial;
+background:#000;
+color:white;
+text-align:center;
+}
+
+table{
+margin:auto;
+margin-top:50px;
+border-collapse:collapse;
+width:70%;
+}
+
+th,td{
+border:1px solid #00f7ff;
+padding:12px;
+}
+
+th{
+background:#111;
+color:#00f7ff;
+}
+
+</style>
+
+</head>
+
+<body>
+<header>
+
+<div class="logo">🎮 WTF ESPORTS</div>
+
+<header>
+
+<div class="logo">🎮 WTF ESPORTS</div>
+
+>
+
+<a href="index2.1.html">Home</a>
+<a href="booking2.1.html">Tournament</a>
+<a href="leaderboard.html">Leaderboard</a>
+<a href="bracket.html">Bracket</a>
+<a href="rules.html">Rules</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+
+</nav>
+
+</header>
+
+</header>
+<h1>🏆 Tournament Leaderboard</h1>
+
+<table>
+
+<tr>
+<th>Rank</th>
+<th>Player</th>
+<th>UID</th>
+<th>Kills</th>
+<th>Points</th>
+</tr>
+<nav
+<!-- OLD STATIC DATA (Your original data kept) -->
+
+<tr>
+<td>1</td>
+<td>Naresh</td>
+<td>123456</td>
+<td>8</td>
+<td>20</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Rahul</td>
+<td>889921</td>
+<td>5</td>
+<td>14</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Arjun</td>
+<td>554211</td>
+<td>4</td>
+<td>12</td>
+</tr>
+
+<!-- AUTO RESULTS -->
+
+<tbody id="leaderboardBody"></tbody>
+
+</table>
+
+<script>
+
+/* AUTO LEADERBOARD SYSTEM */
+
+let results = JSON.parse(localStorage.getItem("results")) || [];
+
+let table = document.getElementById("leaderboardBody");
+
+/* Sort by highest points */
+
+results.sort(function(a,b){
+return b.points - a.points;
+});
+
+/* Add new rows automatically */
+
+results.forEach(function(player,index){
+
+let row = document.createElement("tr");
+
+row.innerHTML = `
+<td>${index+4}</td>
+<td>${player.team}</td>
+<td>-</td>
+<td>${player.kills}</td>
+<td>${player.points}</td>
+`;
+
+table.appendChild(row);
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Player Dashboard</title>
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#000;
+color:white;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:#111;
+}
+
+.logo{
+font-size:24px;
+color:#00f7ff;
+font-weight:bold;
+}
+
+nav a{
+color:white;
+margin-left:30px;
+text-decoration:none;
+}
+
+nav a:hover{
+color:#00f7ff;
+}
+
+/* HERO */
+
+.hero{
+height:60vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background-image:url("https://images.unsplash.com/photo-1542751371-adc38448a05e");
+background-size:cover;
+background-position:center;
+}
+
+.hero h1{
+font-size:60px;
+color:#00f7ff;
+}
+
+.hero p{
+font-size:20px;
+margin-top:10px;
+}
+
+/* COUNTDOWN */
+
+.timer{
+text-align:center;
+padding:20px;
+font-size:22px;
+background:#111;
+}
+
+/* MATCH STATUS */
+
+.status{
+text-align:center;
+padding:20px;
+background:#000;
+}
+
+.status h2{
+color:#00f7ff;
+margin-bottom:10px;
+}
+
+/* SLOT SECTION */
+
+.slots{
+padding:60px;
+text-align:center;
+background:#0f2027;
+}
+
+.counter{
+margin-bottom:20px;
+font-size:18px;
+}
+
+.slot-grid{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:15px;
+max-width:900px;
+margin:auto;
+}
+
+.slot{
+padding:20px;
+background:#111;
+border:1px solid #00f7ff;
+border-radius:8px;
+cursor:pointer;
+}
+
+.slot:hover{
+background:#00f7ff;
+color:black;
+}
+
+.booked{
+background:red;
+cursor:not-allowed;
+}
+
+/* ROOM SECTION */
+
+.room-box{
+margin-top:30px;
+padding:20px;
+background:#111;
+border-radius:10px;
+display:none;
+}
+
+/* JOINED PLAYERS */
+
+.players{
+padding:60px;
+background:#000;
+text-align:center;
+}
+
+.playerItem{
+background:#111;
+padding:10px;
+margin:10px auto;
+max-width:400px;
+border-radius:6px;
+border:1px solid #00f7ff;
+}
+
+/* CONTACT */
+
+.contact{
+padding:60px;
+text-align:center;
+background:#111;
+}
+
+footer{
+background:#000;
+text-align:center;
+padding:20px;
+}
+
+button{
+padding:10px 20px;
+background:#00f7ff;
+border:none;
+border-radius:5px;
+cursor:pointer;
+margin:10px;
+}
+
+</style>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#000;
+color:white;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:#111;
+}
+
+.logo{
+font-size:24px;
+color:#00f7ff;
+font-weight:bold;
+}
+
+nav a{
+color:white;
+margin-left:30px;
+text-decoration:none;
+}
+
+nav a:hover{
+color:#00f7ff;
+}
+
+/* HERO */
+
+.hero{
+height:60vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background-image:url("https://images.unsplash.com/photo-1542751371-adc38448a05e");
+background-size:cover;
+background-position:center;
+}
+
+.hero h1{
+font-size:60px;
+color:#00f7ff;
+}
+
+.hero p{
+font-size:20px;
+margin-top:10px;
+}
+
+/* COUNTDOWN */
+
+.timer{
+text-align:center;
+padding:20px;
+font-size:22px;
+background:#111;
+}
+
+/* MATCH STATUS */
+
+.status{
+text-align:center;
+padding:20px;
+background:#000;
+}
+
+.status h2{
+color:#00f7ff;
+margin-bottom:10px;
+}
+
+/* SLOT SECTION */
+
+.slots{
+padding:60px;
+text-align:center;
+background:#0f2027;
+}
+
+.counter{
+margin-bottom:20px;
+font-size:18px;
+}
+
+.slot-grid{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:15px;
+max-width:900px;
+margin:auto;
+}
+
+.slot{
+padding:20px;
+background:#111;
+border:1px solid #00f7ff;
+border-radius:8px;
+cursor:pointer;
+}
+
+.slot:hover{
+background:#00f7ff;
+color:black;
+}
+
+.booked{
+background:red;
+cursor:not-allowed;
+}
+
+/* ROOM SECTION */
+
+.room-box{
+margin-top:30px;
+padding:20px;
+background:#111;
+border-radius:10px;
+display:none;
+}
+
+/* JOINED PLAYERS */
+
+.players{
+padding:60px;
+background:#000;
+text-align:center;
+}
+
+.playerItem{
+background:#111;
+padding:10px;
+margin:10px auto;
+max-width:400px;
+border-radius:6px;
+border:1px solid #00f7ff;
+}
+
+/* CONTACT */
+
+.contact{
+padding:60px;
+text-align:center;
+background:#111;
+}
+
+footer{
+background:#000;
+text-align:center;
+padding:20px;
+}
+
+button{
+padding:10px 20px;
+background:#00f7ff;
+border:none;
+border-radius:5px;
+cursor:pointer;
+margin:10px;
+}
+
+</style>
+
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f2027;
+color:white;
+padding:30px;
+}
+
+.card{
+background:#111;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+    
+<h1>🎮 Player Dashboard</h1>
+<h3>📢 Announcement</h3>
+
+<div id="announcementBox"></div>
+
+<div class="card" id="teamDetails"></div>
+
+<div class="card">
+
+<h3>Room Details</h3>
+
+<p id="roomInfo"></p>
+
+</div>
+
+<div class="card">
+
+<h3>Leaderboard</h3>
+
+<div id="leaderboard"></div>
+<h3>Current Match Map</h3>
+
+<div id="mapDisplay"></div>
+</div>
+
+<script>
+let announcement = localStorage.getItem("announcement");
+
+if(announcement){
+
+document.getElementById("announcementBox").innerText = announcement;
+
+}
+let player=JSON.parse(localStorage.getItem("playerLoggedIn"));
+
+if(!player){
+
+window.location.href="player-login.html";
+
+}
+
+document.getElementById("teamDetails").innerHTML=`
+
+<h3>Team Info</h3>
+
+<p><b>Team:</b> ${player.team}</p>
+
+<p><b>Leader:</b> ${player.leader}</p>
+
+<p><b>Game:</b> ${player.game}</p>
+
+<p><b>Status:</b> ${player.status || "Pending"}</p>
+
+`;
+
+/* ROOM DETAILS ONLY AFTER APPROVAL */
+
+let roomId = localStorage.getItem("roomId");
+let roomPass = localStorage.getItem("roomPassword");
+
+if(player.status === "Approved"){
+
+document.getElementById("roomInfo").innerHTML = `
+
+Room ID: ${roomId || "Not Announced"}
+
+<br>
+
+Password: ${roomPass || "Not Announced"}
+
+`;
+
+}else{
+
+document.getElementById("roomInfo").innerHTML = `
+
+Room details will appear after admin approval.
+
+`;
+
+}
+
+
+/* LEADERBOARD */
+
+let results=JSON.parse(localStorage.getItem("results"))||[];
+
+results.sort((a,b)=>b.points-a.points);
+
+let html="";
+
+results.forEach((r,i)=>{
+
+html+=`
+
+<p>#${i+1} ${r.team} - ${r.points} pts</p>
+
+`;
+
+});
+
+document.getElementById("leaderboard").innerHTML=html;
+let map = localStorage.getItem("matchMap");
+
+if(map){
+
+document.getElementById("mapDisplay").innerText = map;
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Tournament Bracket | WTF ESPORTS</title>
+<header>
+
+<header class="main-header">
+
+<div class="logo">🎮 WTF ESPORTS</div>
+
+<nav class="menu">
+
+<a href="index2.1.html">Home</a>
+<a href="booking2.1.html">Tournament</a>
+<a href="leaderboard.html">Leaderboard</a>
+<a href="bracket.html">Bracket</a>
+<a href="rules.html">Rules</a>
+<a href="about.html">About Us</a>
+<a href="contact.html">Contact</a>
+
+<a href="player-login2.1.html" class="login-btn">Player Login</a>
+<a href="admin2.1.html" class="admin-btn">Admin</a>
+
+</nav>
+
+</header>
+
+<style>
+    /* HEADER */
+
+.main-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 60px;
+background:#0a0a0a;
+border-bottom:1px solid #00f7ff;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+/* LOGO */
+
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#00f7ff;
+}
+
+/* MENU */
+
+.menu a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+font-size:15px;
+transition:0.3s;
+}
+
+.menu a:hover{
+color:#00f7ff;
+}
+
+/* BUTTONS */
+
+.login-btn{
+background:#00f7ff;
+color:black;
+padding:8px 14px;
+border-radius:5px;
+}
+
+.admin-btn{
+background:#ff4747;
+padding:8px 14px;
+border-radius:5px;
+}
+
+.admin-btn:hover{
+background:#ff2a2a;
+}
+body{
+background:#000;
+color:white;
+font-family:Arial;
+text-align:center;
+padding:40px;
+}
+
+h1{
+color:#00f7ff;
+margin-bottom:40px;
+}
+
+.match{
+background:#111;
+border:1px solid #00f7ff;
+padding:20px;
+margin:20px auto;
+width:400px;
+border-radius:10px;
+}
+
+.team{
+padding:10px;
+border-bottom:1px solid #333;
+}
+
+.vs{
+margin:10px 0;
+color:#00f7ff;
+}
+
+button{
+padding:10px 20px;
+background:#00f7ff;
+border:none;
+border-radius:5px;
+cursor:pointer;
+margin-top:30px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🏆 Tournament Brackets</h1>
+
+<div id="brackets"></div>
+
+<button onclick="generateBracket()">Generate Matches</button>
+
+<script>
+
+function generateBracket(){
+
+let players = JSON.parse(localStorage.getItem("players")) || [];
+
+let container = document.getElementById("brackets");
+
+container.innerHTML="";
+
+for(let i=0;i<players.length;i+=2){
+
+let team1 = players[i] ? players[i].team : "Waiting...";
+let team2 = players[i+1] ? players[i+1].team : "Waiting...";
+
+container.innerHTML += `
+
+<div class="match">
+
+<div class="team">${team1}</div>
+
+<div class="vs">VS</div>
+
+<div class="team">${team2}</div>
+
+</div>
+
+`;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f2027;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.login-box{
+background:#111;
+padding:30px;
+border-radius:10px;
+text-align:center;
+width:300px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:5px;
+}
+
+button{
+padding:10px 20px;
+background:#00f2ff;
+border:none;
+cursor:pointer;
+border-radius:5px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<h2>🎮 Player Login</h2>
+
+<input type="text" id="username" placeholder="Username">
+
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+</div>
+
+
+<script>
+
+function login(){
+
+let username=document.getElementById("username").value;
+
+let password=document.getElementById("password").value;
+
+let players=JSON.parse(localStorage.getItem("players"))||[];
+
+let found=players.find(p=>p.username==username && p.password==password);
+
+if(found){
+
+localStorage.setItem("playerLoggedIn",JSON.stringify(found));
+
+window.location.href="player-dashboard.html";
+
+}else{
+
+alert("Invalid Login Details");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

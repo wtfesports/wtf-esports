@@ -1,22 +1,160 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Panel | WTF Esports</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Admin Login</title>
+    
+
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-family:Arial, sans-serif;
+            background: linear-gradient(-45deg, #1d2b64, #f8cdda, #00c9ff, #92fe9d);
+            background-size:400% 400%;
+            animation: gradientBG 10s ease infinite;
+        }
+
+        @keyframes gradientBG{
+            0%{background-position:0% 50%;}
+            50%{background-position:100% 50%;}
+            100%{background-position:0% 50%;}
+        }
+
+        .login-box{
+            background:rgba(255,255,255,0.95);
+            padding:40px;
+            border-radius:15px;
+            width:320px;
+            text-align:center;
+            box-shadow:0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn{
+            from{opacity:0; transform:translateY(-20px);}
+            to{opacity:1; transform:translateY(0);}
+        }
+
+        h2{
+            margin-bottom:20px;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin:10px 0;
+            border-radius:8px;
+            border:1px solid #ccc;
+            transition:0.3s;
+        }
+
+        input:focus{
+            border-color:#007bff;
+            box-shadow:0 0 8px #007bff;
+            outline:none;
+        }
+
+        button{
+            width:100%;
+            padding:10px;
+            margin-top:10px;
+            border:none;
+            border-radius:8px;
+            background:#007bff;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#0056b3;
+            transform:scale(1.05);
+        }
+    </style>
 </head>
 <body>
+    <header>
 
-<h1>Admin Dashboard</h1>
+<div class="logo">🎮 WTF ESPORTS</div>
 
-<section class="admin-panel">
-    <h3>Manage Slots</h3>
-    <p>20 / 30 Slots Filled</p>
 
-    <h3>Update Match ID & Password</h3>
-    <input type="text" placeholder="Room ID">
-    <input type="text" placeholder="Password">
-    <button>Update</button>
-</section>
 
+<div class="login-box">
+    <h2>Admin Login 👑</h2>
+
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+</div>
+
+<script>
+    // Force logout every time login page opens
+localStorage.removeItem("adminLoggedIn");
+
+function login(){
+
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    if(username === "admin" && password === "1234"){
+
+        localStorage.setItem("adminLoggedIn","true");
+        window.location.href = "dashboard.html";
+
+    }else{
+        alert("Invalid Username or Password");
+    }
+}
+
+</script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBQWMagDvKjFSYaX-0ex2gGYT2AaucSIV8",
+  authDomain: "wtf-esports-victory-start-here.firebaseapp.com",
+  projectId: "wtf-esports-victory-start-here",
+  storageBucket: "wtf-esports-victory-start-here.appspot.com",
+  messagingSenderId: "987957320998",
+  appId: "1:987957320998:web:f2211adc9f99d55f60f5e7"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// login function
+function login(){
+
+let email = document.getElementById("username").value;
+let password = document.getElementById("password").value;
+
+signInWithEmailAndPassword(auth, email, password)
+
+.then(() => {
+
+localStorage.setItem("adminLoggedIn","true");
+window.location.href = "dashboard.html";
+
+})
+
+.catch((error) => {
+
+alert("Login Failed");
+
+});
+
+}
+
+// make function global for button
+window.login = login;
+
+</script>
 </body>
 </html>

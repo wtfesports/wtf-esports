@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ultimate Gaming Admin Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    /* HEADER */
+
+.main-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 60px;
+background:#0a0a0a;
+border-bottom:1px solid #00f7ff;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+/* LOGO */
+
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#00f7ff;
+}
+
+/* MENU */
+
+.menu a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+font-size:15px;
+transition:0.3s;
+}
+
+.menu a:hover{
+color:#00f7ff;
+}
+
+/* BUTTONS */
+
+.login-btn{
+background:#00f7ff;
+color:black;
+padding:8px 14px;
+border-radius:5px;
+}
+
+.admin-btn{
+background:#ff4747;
+padding:8px 14px;
+border-radius:5px;
+}
+
+.admin-btn:hover{
+background:#ff2a2a;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+
+body{
+height:100vh;
+background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#000);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+color:white;
+display:flex;
+overflow:hidden;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.sidebar{
+width:240px;
+background:rgba(0,0,0,0.9);
+padding:20px;
+min-height:100vh;
+box-shadow:0 0 20px #00f2ff;
+text-align:center;
+}
+
+.sidebar img{
+width:100px;
+height:100px;
+border-radius:50%;
+border:3px solid #00f2ff;
+margin-bottom:10px;
+}
+
+.sidebar ul{list-style:none;margin-top:20px;}
+
+.sidebar ul li{
+padding:10px;
+margin:10px 0;
+cursor:pointer;
+border-radius:6px;
+}
+
+.sidebar ul li:hover{
+background:#00f2ff;
+color:black;
+}
+
+.main{
+flex:1;
+padding:20px 40px;
+overflow:auto;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.logo{color:#00f7ff;font-size:22px;}
+
+nav a{
+color:white;
+margin-left:20px;
+text-decoration:none;
+}
+
+nav a:hover{color:#00f7ff;}
+
+.card-box{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-bottom:20px;
+}
+
+.card{
+padding:20px;
+border-radius:15px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(8px);
+}
+
+.player-card{
+background:rgba(255,255,255,0.1);
+padding:15px;
+margin-bottom:15px;
+border-radius:10px;
+}
+
+.badge{padding:4px 8px;border-radius:5px;font-size:12px;}
+
+.approved{background:limegreen;}
+.pending{background:orange;}
+.rejected{background:red;}
+
+button{
+padding:8px 12px;
+margin:5px;
+border:none;
+cursor:pointer;
+border-radius:5px;
+}
+
+.approve{background:limegreen;color:white;}
+.delete{background:red;color:white;}
+.export{background:#00f2ff;color:black;}
+.clear{background:orange;color:white;}
+
+input,select{
+padding:8px;
+width:100%;
+margin:10px 0;
+border-radius:5px;
+border:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<script>
+if(localStorage.getItem("adminLoggedIn")!=="true"){
+window.location.href="admin2.1.html";
+}
+function clearChat(){
+
+localStorage.removeItem("chat");
+
+alert("Tournament Chat Cleared");
+
+}
+</script>
+
+<div class="sidebar">
+
+<img src="https://via.placeholder.com/100">
+
+<h2>🎮 Admin</h2>
+
+<ul>
+<li>Dashboard</li>
+<li>Players</li>
+<li onclick="logout()">Logout</li>
+</ul>
+
+</div>
+
+<div class="main">
+
+<header class="main-header">
+
+<div class="logo">🎮 WTF ESPORTS</div>
+
+<nav class="menu">
+
+<a href="index2.1.html">Home</a>
+<a href="booking2.1.html">Tournament</a>
+<a href="leaderboard.html">Leaderboard</a>
+<a href="bracket.html">Bracket</a>
+<a href="rules.html">Rules</a>
+<a href="about.html">About Us</a>
+<a href="contact.html">Contact</a>
+
+<a href="player-login2.1.html" class="login-btn">Player Login</a>
+<a href="admin2.1.html" class="admin-btn">Admin</a>
+
+</nav>
+
+</header>
+
+<div class="card-box">
+
+<div class="card">
+<h3>Total</h3>
+<h2 id="totalCount">0</h2>
+</div>
+
+<div class="card">
+<h3>Approved</h3>
+<h2 id="approvedCount">0</h2>
+</div>
+
+<div class="card">
+<h3>Pending</h3>
+<h2 id="pendingCount">0</h2>
+</div>
+
+<div class="card">
+<h3>Rejected</h3>
+<h2 id="rejectedCount">0</h2>
+</div>
+
+</div>
+
+<div class="card">
+<h3>Players Status Graph</h3>
+<canvas id="statusChart"></canvas>
+</div>
+
+<div class="card">
+
+<h3>📢 Announcement</h3>
+
+<input id="announcementText" placeholder="Type announcement">
+
+<button onclick="sendAnnouncement()">Send</button>
+
+</div>
+
+<div class="card">
+
+<h3>🎮 Registration Control</h3>
+
+<button onclick="openRegistration()">Open Registration</button>
+
+<button onclick="closeRegistration()">Close Registration</button>
+<button onclick="clearChat()">Clear Tournament Chat</button>
+<h3>Registration Control</h3>
+
+<button onclick="openRegistration()">Open Registration</button>
+
+<button onclick="closeRegistration()">Close Registration</button>
+
+
+</div>
+
+<div class="card">
+
+<h3>🧹 Remove Fake User</h3>
+
+<input id="fakeMobile" placeholder="Enter Mobile">
+
+<button onclick="removeFakeUser()">Remove</button>
+<h3>Set Admin Password</h3>
+
+<input id="adminPassInput" placeholder="Enter New Password">
+
+<button onclick="setAdminPass()">Save Password</button>
+
+</div>
+
+<div class="card">
+
+<h3>🏆 Announce Winner</h3>
+
+<input id="winnerTeam" placeholder="Team Name">
+
+<input id="winnerKills" placeholder="Kills">
+
+<input id="winnerPoints" placeholder="Points">
+
+<button onclick="announceWinner()">Publish</button>
+
+</div>
+
+<div class="card">
+
+<h3>📊 Score Calculator</h3>
+
+<input id="calcTeamID" placeholder="Team ID">
+
+<input id="calcKills" type="number" placeholder="Kills">
+
+<input id="calcPlacement" type="number" placeholder="Placement">
+
+<button onclick="calculateScore()">Calculate</button>
+
+</div>
+
+<input id="searchInput" placeholder="Search Player..." onkeyup="searchPlayers()">
+
+<button class="export" onclick="exportCSV()">Export CSV</button>
+
+<button class="clear" onclick="clearAll()">Clear All</button>
+
+<div id="playersList"></div>
+
+</div>
+
+<script>
+
+let players=JSON.parse(localStorage.getItem("players"))||[];
+
+let chart;
+
+function renderPlayers(){
+
+let approved=0,pending=0,rejected=0,output="";
+
+players.forEach((player,index)=>{
+
+if(!player.status)player.status="Pending";
+
+let badge="pending";
+
+if(player.status==="Approved"){approved++;badge="approved";}
+else if(player.status==="Rejected"){rejected++;badge="rejected";}
+else{pending++;}
+
+output+=`
+
+<div class="player-card">
+
+<p><b>Team:</b> ${player.team}</p>
+<p><b>Leader:</b> ${player.leader}</p>
+<p><b>Game:</b> ${player.game}</p>
+<p><b>Mobile:</b> ${player.mobile}</p>
+<p><b>Username:</b> ${player.username}</p>
+<p><b>Password:</b> ${player.password}</p>
+
+<p>Status: <span class="badge ${badge}">${player.status}</span></p>
+
+<button class="approve" onclick="approvePlayer(${index})">Approve</button>
+<button class="delete" onclick="deletePlayer(${index})">Delete</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("playersList").innerHTML=output;
+
+document.getElementById("totalCount").innerText=players.length;
+document.getElementById("approvedCount").innerText=approved;
+document.getElementById("pendingCount").innerText=pending;
+document.getElementById("rejectedCount").innerText=rejected;
+
+}
+
+function approvePlayer(i){
+players[i].status="Approved";
+localStorage.setItem("players",JSON.stringify(players));
+renderPlayers();
+}
+
+function deletePlayer(i){
+players.splice(i,1);
+localStorage.setItem("players",JSON.stringify(players));
+renderPlayers();
+}
+
+function searchPlayers(){
+let value=document.getElementById("searchInput").value.toLowerCase();
+let filtered=players.filter(p=>p.team.toLowerCase().includes(value));
+document.getElementById("playersList").innerHTML="";
+filtered.forEach(p=>{
+document.getElementById("playersList").innerHTML+=`<div class="player-card">${p.team}</div>`;
+});
+}
+
+function clearAll(){
+localStorage.removeItem("players");
+players=[];
+renderPlayers();
+}
+
+function exportCSV(){
+
+let csv="Team,Leader,Game,Status\n";
+
+players.forEach(p=>{
+csv+=`${p.team},${p.leader},${p.game},${p.status}\n`;
+});
+
+let blob=new Blob([csv],{type:"text/csv"});
+
+let a=document.createElement("a");
+
+a.href=URL.createObjectURL(blob);
+
+a.download="players.csv";
+
+a.click();
+
+}
+
+function logout(){
+localStorage.removeItem("adminLoggedIn");
+window.location.href="admin2.1.html";
+}
+
+function sendAnnouncement(){
+let msg=document.getElementById("announcementText").value;
+localStorage.setItem("announcement",msg);
+alert("Announcement Sent");
+}
+
+function openRegistration(){
+localStorage.setItem("registrationStatus","open");
+alert("Registration Opened");
+}
+
+function closeRegistration(){
+localStorage.setItem("registrationStatus","closed");
+alert("Registration Closed");
+}
+
+function removeFakeUser(){
+
+let mobile=document.getElementById("fakeMobile").value;
+
+players=players.filter(p=>p.mobile!==mobile);
+
+localStorage.setItem("players",JSON.stringify(players));
+
+renderPlayers();
+
+alert("User Removed");
+
+}
+
+function announceWinner(){
+
+let team=document.getElementById("winnerTeam").value;
+let kills=document.getElementById("winnerKills").value;
+let points=document.getElementById("winnerPoints").value;
+
+localStorage.setItem("tournamentWinner",JSON.stringify({team,kills,points}));
+
+alert("Winner Announced");
+
+}
+
+function calculateScore(){
+
+let team=document.getElementById("calcTeamID").value;
+let kills=parseInt(document.getElementById("calcKills").value);
+let place=parseInt(document.getElementById("calcPlacement").value);
+
+let placementPoints=0;
+
+if(place===1)placementPoints=15;
+else if(place===2)placementPoints=12;
+else if(place===3)placementPoints=10;
+else if(place===4)placementPoints=8;
+else if(place===5)placementPoints=6;
+
+let total=placementPoints+kills;
+
+let results=JSON.parse(localStorage.getItem("results"))||[];
+
+results.push({team,kills,points:total});
+
+localStorage.setItem("results",JSON.stringify(results));
+
+alert("Score Updated");
+
+}
+
+renderPlayers();
+function openRegistration(){
+
+localStorage.setItem("registrationStatus","open");
+
+alert("Registration Opened");
+
+}
+
+function closeRegistration(){
+
+localStorage.setItem("registrationStatus","closed");
+
+alert("Registration Closed");
+
+}
+function setAdminPass(){
+
+let pass = document.getElementById("adminPassInput").value;
+
+localStorage.setItem("adminPass", pass);
+
+alert("Admin Password Saved");
+
+}
+</script>
+
+</body>
+</html>
